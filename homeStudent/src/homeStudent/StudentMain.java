@@ -1,6 +1,7 @@
 package homeStudent;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,8 +12,6 @@ import oracle.jdbc.driver.DBConversion;
 
 public class StudentMain {
 	public static Scanner sc = new Scanner(System.in);
-	public static final int INSERT = 1, UPDATE = 2, DELETE = 3, PRINT = 4, EXIT = 5;
-
 	public static void main(String[] args) throws SQLException {
 		boolean exitFlag = false;
 		// Student 출력, 입력, 수정, 삭제 메뉴
@@ -20,19 +19,19 @@ public class StudentMain {
 			printMenu();
 			int num = Integer.parseInt(sc.nextLine());
 			switch (num) {
-			case INSERT:
+			case StudentMenu.INSERT:
 				studentInsert();
 				break;
-			case UPDATE:
+			case StudentMenu.UPDATE:
 				booksUpdate();
 				break;
-			case DELETE:
+			case StudentMenu.DELETE:
 				studentDelete();
 				break;
-			case PRINT:
+			case StudentMenu.PRINT:
 				studentPrint();
 				break;
-			case EXIT:
+			case StudentMenu.EXIT:
 				exitFlag = true;
 				break;
 			default:
@@ -46,7 +45,7 @@ public class StudentMain {
 	// Udate
 	private static void booksUpdate() throws SQLException {
 		Connection con = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		Student stu = null;
 		con = DBConnection.dbCon();
 		System.out.println("수정할 번호를 입력하세요");
@@ -57,24 +56,29 @@ public class StudentMain {
 		String phone = sc.nextLine();
 		System.out.println("수정할 성별을 입력하세요");
 		String gender = sc.nextLine();
-		stmt = con.createStatement();
 		stu = new Student(no, name, phone, gender);
-		int result = stmt.executeUpdate("UPDATE STUDENT SET NO = '"+stu.getNo()+"',NANE ='"+stu.getName()+"',PHONE ='"+stu.getPhone()+"', GENDER='"+stu.getGender()+"");
+		pstmt = con.prepareStatement("UPDATE STUDENT SET NAME = ?, PHONE = ?, GENDER = ? WHERE NO = ?");
+		pstmt.setString(1, stu.getName());
+		pstmt.setString(2, stu.getPhone());
+		pstmt.setString(3, stu.getGender());
+		pstmt.setInt(4, stu.getNo());
+		int result = pstmt.executeUpdate();
 		System.out.println((result != 0)?"수정완료":"수정실패");
-		DBConnection.dbClose(con, stmt);
+		DBConnection.dbClose(con, pstmt);
 	}
 
 	// Delete
 	private static void studentDelete() throws SQLException {
 		Connection con = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		con = DBConnection.dbCon();
 		System.out.print("삭제할번호>>");
 		int no = Integer.parseInt(sc.nextLine());
-		stmt = con.createStatement();
-		int result = stmt.executeUpdate("DELETE FROM STUDENT WHERE NO = " + no);
+		pstmt = con.prepareStatement("DELETE FROM STUDENT WHERE NO =?");
+		pstmt.setInt(1, no);
+		int result = pstmt.executeUpdate();
 		System.out.println((result != 0) ? "삭제성공" : "삭제실패");
-		DBConnection.dbClose(con, stmt);
+		DBConnection.dbClose(con, pstmt);
 	}
 
 	// Print
@@ -102,7 +106,7 @@ public class StudentMain {
 	// INSERT
 	private static void studentInsert() throws SQLException {
 		Connection con = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ArrayList<Student> stulist = new ArrayList<Student>();
 		Student stu = null;
 		con = DBConnection.dbCon();
@@ -114,11 +118,13 @@ public class StudentMain {
 		System.out.println("성별을 입력하세요 M/F");
 		String gender = sc.nextLine();
 		stu = new Student(no, name, phone, gender);
-		stmt = con.createStatement();
-		int result = stmt.executeUpdate("INSERT INTO STUDENT VALUES ( STU_NO_SEQ.nextval  ,'" + stu.getName() + "','"
-				+ stu.getPhone() + "','" + stu.getGender() + "')");
+		pstmt = con.prepareStatement("INSERT INTO STUDENT VALUES (STU_NO_SEQ.nextval ,?,?,?)");
+		pstmt.setString(1, stu.getName());
+		pstmt.setString(2, stu.getPhone());
+		pstmt.setString(3, stu.getGender());
+		int result = pstmt.executeUpdate();
 		System.out.println((result != 0) ? "삽입성공" : "삽입실패");
-		DBConnection.dbClose(con, stmt);
+		DBConnection.dbClose(con, pstmt);
 	}
 
 	private static void printMenu() {

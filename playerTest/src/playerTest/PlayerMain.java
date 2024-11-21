@@ -120,11 +120,12 @@ public class PlayerMain {
 		System.out.println("수정할 경기 수를 입력하세요");
 		int game = Integer.parseInt(sc.nextLine());
 		pl = new Player(no, name, possit, weekSal, game);
-		pstmt = con.prepareStatement("UPDATE STUDENT SET NAME = ?, POSSIT = ?, WEEKSAL = ? , GAME = ? WHERE NO = ?");
+		pstmt = con.prepareStatement("UPDATE PLAYER SET NAME = ?, POSSIT = ?, WEEKSAL = ? , GAME = ? WHERE NO = ?");
 		pstmt.setString(1, pl.getName());
 		pstmt.setString(2, pl.getPossit());
 		pstmt.setInt(3, pl.getWeekSal());
 		pstmt.setInt(4, pl.getGame());
+		pstmt.setInt(5, pl.getNo());
 		int result = pstmt.executeUpdate();
 		System.out.println((result != 0)?"수정완료":"수정실패");
 		DBConnection.dbClose(con, pstmt);

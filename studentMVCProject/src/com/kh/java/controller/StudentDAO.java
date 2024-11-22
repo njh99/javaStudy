@@ -1,5 +1,7 @@
 package com.kh.java.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +22,7 @@ public class StudentDAO {
 	public static String deleteSQL = "DELETE FROM STUDENT WHERE NO = ?";
 	public static String sortSQL = "SELECT * FROM STUDENT ORDER BY RANK";
 	
-	public static ArrayList<StudentVO> totalSelect() throws SQLException {
+	public static ArrayList<StudentVO> totalSelect() throws SQLException, FileNotFoundException, IOException {
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -50,7 +52,7 @@ public class StudentDAO {
 }
 
 	
-	public static boolean studentInsert(StudentVO svo) throws SQLException {
+	public static boolean studentInsert(StudentVO svo) throws SQLException, IOException {
 
 		// Conection
 		boolean successFlag = false;
@@ -79,7 +81,7 @@ public class StudentDAO {
 		return successFlag;
 	}
 
-	public static boolean stuUpdate(StudentVO svo) throws SQLException {
+	public static boolean stuUpdate(StudentVO svo) throws SQLException, FileNotFoundException, IOException {
 		boolean successFlag = false;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -104,7 +106,7 @@ public class StudentDAO {
 		return successFlag;
 	}
 
-	public static boolean studentDelete(StudentVO svo) throws SQLException {
+	public static boolean studentDelete(StudentVO svo) throws SQLException, FileNotFoundException, IOException {
 		boolean successFlag = false;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -122,7 +124,7 @@ public class StudentDAO {
 		return successFlag;
 	}
 
-	public static ArrayList<StudentVO> studentSort() throws SQLException {
+	public static ArrayList<StudentVO> studentSort() throws SQLException, FileNotFoundException, IOException {
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;

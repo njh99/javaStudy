@@ -1,5 +1,7 @@
 package com.kh.java;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -10,7 +12,7 @@ import com.kh.java.view.StudentMenu;
 public class StudentMVCProject {
 	public static Scanner sc = new Scanner(System.in);
 
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, FileNotFoundException, IOException {
 
 		boolean exitFlag = false;
 		while (!exitFlag) {

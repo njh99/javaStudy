@@ -1,6 +1,8 @@
 package com.kh.java.controller;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,13 +14,17 @@ public class StudentRegisterManager {
 	public static Scanner sc = new Scanner(System.in);
 
 	//전체 학생리스트를 출력기능
-	public static void totalSelectManager() throws SQLException {
+	public static void totalSelectManager() throws SQLException, FileNotFoundException, IOException {
 		ArrayList<StudentVO> studentList = new ArrayList<StudentVO>();
 		studentList = StudentDAO.totalSelect();
+		if(studentList == null) {
+			System.out.println("data가 없습니다.");
+			return;
+		}
 		printStudentList(studentList);
 	}
 	
-	public static void updateManager() throws SQLException {
+	public static void updateManager() throws SQLException, FileNotFoundException, IOException {
 		
 		System.out.print("수정할 학생의 번호를 입력하세요: ");
 		int no = Integer.parseInt(sc.nextLine());
@@ -42,7 +48,7 @@ public class StudentRegisterManager {
 		}
 	}
 	
-	public static void insertManager() throws SQLException {
+	public static void insertManager() throws SQLException, IOException {
 		// 3.statement
 		System.out.print("학생 이름을 입력하세요: ");
 		String name = sc.nextLine();
@@ -63,7 +69,7 @@ public class StudentRegisterManager {
 		}
 	}
 	
-	public static void deleteManager() throws SQLException {
+	public static void deleteManager() throws SQLException, FileNotFoundException, IOException {
 		
 		System.out.print("삭제할 학생 번호를 입력하세요: ");
 		int no = Integer.parseInt(sc.nextLine());
@@ -77,7 +83,7 @@ public class StudentRegisterManager {
 		}
 	}
 	
-	public static void sortManager() throws SQLException {
+	public static void sortManager() throws SQLException, FileNotFoundException, IOException {
 		ArrayList<StudentVO> studentList = null;
 		studentList = StudentDAO.studentSort();
 		printStudentList(studentList);

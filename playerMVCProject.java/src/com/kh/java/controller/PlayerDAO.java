@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.kh.java.model.PlayerVo;
 
 public class PlayerDAO {
+	//쿼리문
 	public static String selectSQL = "SELECT * FROM PLAYER";
 	public static String insertSQL = "INSERT INTO PLAYER VALUES(PLAYER_NO_SEQ.nextval,?,?,?,?)";
 	public static String updateSQL = "UPDATE PLAYER SET NAME = ?, POSSIT = ?, WEEKSAL = ? , GAME = ? WHERE NO = ?";
@@ -78,7 +79,7 @@ public class PlayerDAO {
 		ArrayList<PlayerVo> playerlist = new ArrayList<PlayerVo>();
 		con = DBUtility.dbCon();
 		stmt = con.createStatement();
-		rs = stmt.executeQuery("selectSQL");
+		rs = stmt.executeQuery(selectSQL);
 		
 		while (rs.next()) {
 			int no = rs.getInt("NO");
@@ -90,13 +91,10 @@ public class PlayerDAO {
 			playerlist.add(pvo);
 
 		}
-		
 		DBUtility.dbClose(con, stmt,rs);
 		return playerlist;
 	}
-
-	
-	
+	//함수
 	public static boolean PlayerFunc(PlayerVo pvo) throws SQLException {
 		boolean successFlag = false;
 		Connection con = null;
@@ -113,7 +111,7 @@ public class PlayerDAO {
 		DBUtility.dbClose(con, cstmt);
 		return successFlag;
 	}
-
+	//프로시저
 	public static boolean PlayerProc(PlayerVo pvo) throws SQLException {
 		boolean successFlag = false;
 		Connection con = null;

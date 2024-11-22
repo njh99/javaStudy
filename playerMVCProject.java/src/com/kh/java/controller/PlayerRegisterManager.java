@@ -15,7 +15,7 @@ import com.kh.java.model.PlayerVo;
 
 public class PlayerRegisterManager {
 	public static Scanner sc = new Scanner(System.in);
-
+	//삽입
 	public static void PlayerInsert() throws SQLException {
 
 		int no = 0;
@@ -35,7 +35,7 @@ public class PlayerRegisterManager {
 			System.out.println("삽입 실패");
 		}
 	}
-
+	//수정
 	public static void PlayerUpdate() throws SQLException {
 
 		System.out.println("수정할 번호를 입력하세요");
@@ -56,7 +56,7 @@ public class PlayerRegisterManager {
 			System.out.println("수정 실패");
 		}
 	}
-
+	//삭제
 	public static void PlayerDelete() throws SQLException {
 
 		System.out.println("삭제할 선수의 번호를 입력하세요");
@@ -70,7 +70,7 @@ public class PlayerRegisterManager {
 			System.out.println("삭제처리 실패");
 		}
 	}
-
+	//출력
 	public static void PlayerPrint() throws SQLException {
 		
 		ArrayList<PlayerVo> playerlist = new ArrayList<PlayerVo>();
@@ -78,7 +78,7 @@ public class PlayerRegisterManager {
 		printPlayerList(playerlist);
 			
 		}
-		
+	//FUNC
 	public static void PlayerFunc() throws SQLException {
 		
 		System.out.println("선수의 번호를 입력하세요");
@@ -92,16 +92,15 @@ public class PlayerRegisterManager {
 			System.out.println("함수처리 실패");
 		}
 	}	
-	
-	
+	//출력문
 	public static void printPlayerList(ArrayList<PlayerVo> playerlist) {
 		System.out.println("======================");
 		for (PlayerVo pvo : playerlist) {
-			System.out.println(pvo.toString());
+			System.out.println(String.format("%s",pvo.toString()));
 		}
 		System.out.println("======================");
 	}
-
+	//PROC
 	public static void PlayerProc() throws SQLException {
 		
 		System.out.println("경기 수를 추가할 선수의 번호를 입력하세요");

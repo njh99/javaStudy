@@ -65,7 +65,7 @@ public class PlayerVo {
 
 	@Override
 	public String toString() {
-		return "번호 :" + no + ", 이름 :" + name + ", 포지션 :" + possit + ", 주급 :" + weekSal + "$, 경기수 :" + game;
+		return " 번호 :" + no + "\n 이름 :" + name + "\n 역할 :" + possit + "\n 주급 :" + weekSal + "$\n 경기 :" + game+ "\n------------";
 	}
 	
 	

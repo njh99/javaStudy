@@ -1,30 +1,19 @@
-package com.kh.java;
+package com.kh.java.playerMain;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.kh.java.controller.PlayerRegisterManager;
-import com.kh.java.controller.ReleaseRegisterManager;
 import com.kh.java.view.MENU_CHOICE;
 import com.kh.java.view.MenuViewer;
 import com.kh.java.view.PLAYER_CHOICE;
-import com.kh.java.view.RELEASE_PLAYER_CHOICE;
 
-
-
-
-public class PlayerMVCProject {
+public class playerMain {
 	public static Scanner sc = new Scanner(System.in);
-	public static void main(String[] args) throws SQLException, FileNotFoundException, IOException {
+
+	public static void main(String[] args) throws FileNotFoundException, SQLException, IOException {
 		boolean exitFlag = false;
 
 		while (!exitFlag) {
@@ -35,7 +24,7 @@ public class PlayerMVCProject {
 				playerMenu();
 				break;
 			case MENU_CHOICE.RELEASEPLAYER:
-				ReleaseplayerMenu();
+				PlayerRegisterManager.PlayerUpdate();
 				break;
 			case MENU_CHOICE.EXIT:
 				exitFlag = true;
@@ -85,34 +74,6 @@ public class PlayerMVCProject {
 		System.out.println("종료 되었습니다.");
 		
 	}
-	private static void ReleaseplayerMenu() throws FileNotFoundException, SQLException, IOException {
-		int num; 
-		boolean exitFlag = false;
-		while(!exitFlag) {
-			MenuViewer.releasesPlayerMenuView();;
-			num = Integer.parseInt(sc.nextLine()); 
-			switch (num) {
-			
-			case RELEASE_PLAYER_CHOICE.UPDATE:
-				ReleaseRegisterManager.ReleaseUpdate();
-				break;
-			case RELEASE_PLAYER_CHOICE.DELETE:
-				ReleaseRegisterManager.ReleaseDelete();
-				break;
-			case RELEASE_PLAYER_CHOICE.PRINT:
-				ReleaseRegisterManager.ReleasePrint();
-				break;
-			
-			case RELEASE_PLAYER_CHOICE.EXIT:
-				exitFlag = true;
-				break;
-			default:
-				System.out.println("잘못된 번호입니다.");
-				return;
-			}
-		}
-		System.out.println("종료 되었습니다.");
-		
-	}
+
 	}
 

@@ -1,13 +1,25 @@
 package com.kh.subjectMVCProject.model;
 
 public class lessonVO {
-	private int no;
-	private String abbre;
-	private String name;
+	private int no; 		//PK SEQ
+    private String abbre;   //과목 요약
+    private String name; 	//과목이름
 	
-	public lessonVO() {
-		super();
+    
+    //생성자 디생,매생 생성자 오버로딩
+    
+    public lessonVO(int no, String abbre, String name) {
+		this.no = no;
+		this.abbre = abbre;
+		this.name = name;
 	}
+
+	public lessonVO(String abbre, String name) {
+		this.abbre = abbre;
+		this.name = name;
+	}
+
+	public lessonVO() {}
 
 	public int getNo() {
 		return no;
@@ -35,7 +47,8 @@ public class lessonVO {
 
 	@Override
 	public String toString() {
-		return "lessonVO [no=" + no + ", abbre=" + abbre + ", name=" + name + "]";
+		return "[" + no + ", " + abbre + ", " + name + "]";
 	}
-	
+
+    
 }

@@ -1,32 +1,26 @@
 package com.kh.subjectMVCProject.contorller;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
+
+
+
+
 
 public class DBUtility {
-	public static Connection dbCon() throws FileNotFoundException, IOException {
+	public static Connection dbCon() {
 
 		Connection con = null;
-		// 1. db.properties 에서 id pw 가져오기
-		String filePath = "D:\\javaStudy\\subjectMVCProject\\src\\db.properties";
-		Properties pt = new Properties();
-		pt.load(new FileReader(filePath));
-		String  id  = pt.getProperty("id");
-		String pw = pt.getProperty("pw");
-		String url = pt.getProperty("url");
-		
-		// 2. jdbc driver load 3. connection
+
+		// 1. jdbc driver load 2. connection
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			con = DriverManager.getConnection(url, id, pw);
+			con = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521/xe", "SUBJECTDB", "123456");
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.toString());
 		} catch (SQLException e) {

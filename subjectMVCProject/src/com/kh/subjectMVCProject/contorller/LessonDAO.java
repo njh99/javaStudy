@@ -80,7 +80,8 @@ public class LessonDAO {
 			pstmt = con.prepareStatement(LESSON_DELETE);
 			pstmt.setInt(1, lvo.getNo());
 			int count = pstmt.executeUpdate();
-			successFlag = (count !=0)?(true):(false);
+			successFlag = (count !=0)?true:false;
+			
 		} catch (SQLException e) {
 			System.out.println(e.toString());
 		} finally {

@@ -24,7 +24,7 @@ public class DBUtility {
 		}
 		return con;
 	}
-
+	//오버로딩
 	public static void dbClose(Connection con, Statement stmt, ResultSet rs) {
 		if (con != null) {
 			try {

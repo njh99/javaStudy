@@ -57,11 +57,12 @@ public class MenuViewer {
 	public static void traineeMenuView() {
 		System.out.println();
 		System.out.println("수강 정보 메뉴 번호를 입력하세요.");
-		System.out.println("1. 수강 신청 목록");
-		System.out.println("2. 수강 신청 입력");
-		System.out.println("3. 수강 신청 수정");
-		System.out.println("4. 수강 신청 취소");
-		System.out.println("5. 메인 메뉴");
+		System.out.println("1. 수강 신청 입력");
+		System.out.println("2. 수강 신청 수정");
+		System.out.println("3. 수강 신청 목록");
+		System.out.println("4. 수강 신청 삭제");
+		System.out.println("5. 수강 신청 all list");
+		System.out.println("7. 메인 메뉴");
 		System.out.print("번호 선택 : ");
 	}
 }

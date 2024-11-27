@@ -15,11 +15,26 @@ public class StudentRegisterManager {
 	public static Scanner sc = new Scanner(System.in);
 
 	// 전체 학생리스트를 출력요청
-	public void selectManager() throws SQLException, FileNotFoundException, IOException {
+	public void selectManager() throws SQLException, FileNotFoundException, IOException{
 		StudentDAO sdao = new StudentDAO();
 		ArrayList<StudentVO> studentList = new ArrayList<StudentVO>();
 
+		
 		studentList = sdao.studentSelect();
+		if (studentList == null) {
+			System.out.println("데이터가 존재하지 않습니다.");
+			return;
+		}
+		printStudentList(studentList);
+	}
+	
+	public void selectNameSearchManager(){
+		StudentDAO sdao = new StudentDAO();
+		ArrayList<StudentVO> studentList = new ArrayList<StudentVO>();
+		
+		System.out.print("학생 번호등록(학생이름입력하세요): ");
+		String name = sc.nextLine();
+		studentList = sdao.studentNameSelect(name);
 		if (studentList == null) {
 			System.out.println("데이터가 존재하지 않습니다.");
 			return;

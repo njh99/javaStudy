@@ -3,17 +3,20 @@ package com.kh.subjectMVCProject.model;
 import java.sql.Date;
 
 public class TraineeVO {
-	private int no;           //pk seq
-    private String s_num;     //student fk 번호
-    private String abbre;     //lesson fk 과목요약
-    private String section;   //전공,부전공
-    private Date registdate;  //수강신청일
-    
-    //생성자
-    public TraineeVO() {
-    	super();
-    	// TODO Auto-generated constructor stub
-    }
+	// T.NO, T.SECTION,t.registdate,S.num,S.NAME as sname,L.ABBRE,L.NAME AS lname
+	private int no; // pk seq
+	private String s_num; // student fk 번호
+	private String abbre; // lesson fk 과목요약
+	private String section; // 전공,부전공
+	private Date registdate; // 수강신청일
+	// student join
+	private String s_name;
+	// lesson join
+	private String l_name;
+
+	// 생성자
+	public TraineeVO() {
+	}
 
 	public TraineeVO(int no, String s_num, String abbre, String section, Date registdate) {
 		super();
@@ -24,7 +27,6 @@ public class TraineeVO {
 		this.registdate = registdate;
 	}
 
-	
 	public TraineeVO(String s_num, String abbre, String section) {
 		super();
 		this.s_num = s_num;
@@ -32,7 +34,18 @@ public class TraineeVO {
 		this.section = section;
 	}
 
-	
+	//조인을 위한 생성자
+	public TraineeVO(int no, String s_num, String abbre, String section, Date registdate, String s_name,
+			String l_name) {
+		super();
+		this.no = no;
+		this.s_num = s_num;
+		this.abbre = abbre;
+		this.section = section;
+		this.registdate = registdate;
+		this.s_name = s_name;
+		this.l_name = l_name;
+	}
 
 	public int getNo() {
 		return no;
@@ -74,11 +87,31 @@ public class TraineeVO {
 		this.registdate = registdate;
 	}
 
-	@Override
-	public String toString() {
-		return "[" + no + ", " + s_num + ", " + abbre + ", " + section
-				+ ", " + registdate + "]";
+	public String getS_name() {
+		return s_name;
 	}
 
+	public void setS_name(String s_name) {
+		this.s_name = s_name;
+	}
+
+	public String getL_name() {
+		return l_name;
+	}
+
+	public void setL_name(String l_name) {
+		this.l_name = l_name;
+	}
+
+	@Override
+	public String toString() {
+		return "[" + no + ", " + s_num + ", " + abbre + ", " + section + ", " + registdate + "]";
+	}
+	
+	public String toAllString() {
+	return "TraineeVO [no=" + no + ", s_num=" + s_num + ", abbre=" + abbre + ", section=" + section
+			+ ", registdate=" + registdate + ", s_name=" + s_name + ", l_name=" + l_name + "]";
+	}
+	
 
 }

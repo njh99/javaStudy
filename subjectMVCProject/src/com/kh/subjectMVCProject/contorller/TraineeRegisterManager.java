@@ -1,6 +1,5 @@
 package com.kh.subjectMVCProject.contorller;
 
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -8,88 +7,143 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.kh.subjectMVCProject.model.StudentVO;
+import com.kh.subjectMVCProject.model.TraineeVO;
 
 public class TraineeRegisterManager {
-	public static Scanner sc = new Scanner(System.in); 
-	//전체 학생리스트를 출력요청
-	public static void totalSelectManager() throws SQLException, FileNotFoundException, IOException {
-		ArrayList<StudentVO> studentList = new ArrayList<StudentVO>();
-		studentList = StudentDAO.studentSelect();
-		if(studentList == null) {
+	public static Scanner sc = new Scanner(System.in);
+
+	public static void totalSelectManager(){
+		// 전체 학생리스트를 출력요청
+		TraineeDAO tdao = new TraineeDAO();
+		ArrayList<TraineeVO> traineeList = new ArrayList<TraineeVO>();
+		traineeList = tdao.traineeAllSelect(new TraineeVO());
+		if (traineeList.size() <= 0) {
 			System.out.println("데이터가 존재하지 않습니다.");
 			return;
 		}
-		printStudentList(studentList); 
+		printTraineeAllList(traineeList);
 	}
 
-	public static void insertManager() throws SQLException, FileNotFoundException, IOException {
+	public static void selectManager(){
+		TraineeDAO tdao = new TraineeDAO();
+		ArrayList<TraineeVO> traineelist = new ArrayList<TraineeVO>();
+		traineelist = tdao.traineeSelect(new TraineeVO());
+		if (traineelist.size() <= 0) {
+			System.out.println("데이터가 존재하지 않습니다.");
+			return;
+		}
+		printTraineeList(traineelist);
+	}
+
+	public static void insertManager(){
+		TraineeDAO tdao = new TraineeDAO();
 		// 3.statement
-		System.out.print("학생 이름을 입력하세요: ");
+		System.out.print("학생 번호등록(학생이름입력하세요): ");
 		String name = sc.nextLine();
-		System.out.print("국어 점수를 입력하세요: ");
-		int kor = Integer.parseInt(sc.nextLine());
-		System.out.print("영어 점수를 입력하세요: ");
-		int eng = Integer.parseInt(sc.nextLine());
-		System.out.print("수학 점수를 입력하세요: ");
-		int mat = Integer.parseInt(sc.nextLine());
-
-		StudentVO studentVO = new StudentVO();  
-		boolean successFlag = StudentDAO.studentInsert(studentVO);
+		//검색된 이름으로 학번, 이름, 이메일 출력 통해서 학번입력
+		StudentRegisterManager srm = new StudentRegisterManager();
+		srm.selectNameSearchManager();
 		
-		if(successFlag == true) {
+		System.out.println("번호등록");
+		String s_name = sc.nextLine();
+		//student 검색기능추가
+		
+		LessonRegisterManager lrm = new LessonRegisterManager();
+		lrm.selectManager();
+		
+		System.out.println("과목요약입력 >>");
+		String abbre = (sc.nextLine().trim());
+		
+		
+		System.out.print("전공/부전공/교양 선택>> ");
+		String section = (sc.nextLine().trim());
+		
+		TraineeVO studentVO = new TraineeVO(0, s_name, abbre, section, null);
+		boolean successFlag = tdao.traineeInsert(studentVO);
+
+		if (successFlag == true) {
 			System.out.println("입력처리 성공");
-		}else {
+		} else {
 			System.out.println("입력처리 실패");
 		}
 	}
 
-	public static void updateManager() throws SQLException, FileNotFoundException, IOException {
-		System.out.print("수정할 학생의 번호를 입력하세요: ");
+	public static void updateManager(){
+		TraineeDAO tdao = new TraineeDAO();
+		//Trainee 테이블 전체내용을 보여준다.
+		selectManager();
+		// 3.statement
+		System.out.print("수정할번호입력>> ");
 		int no = Integer.parseInt(sc.nextLine());
-		System.out.print("새로운 이름을 입력하세요: ");
-		String name = sc.nextLine();
-		System.out.print("새로운 국어 점수를 입력하세요: ");
-		int kor = Integer.parseInt(sc.nextLine());
-		System.out.print("새로운 영어 점수를 입력하세요: ");
-		int eng = Integer.parseInt(sc.nextLine());
-		System.out.print("새로운 수학 점수를 입력하세요: ");
-		int mat = Integer.parseInt(sc.nextLine());
+		//검색된 이름으로 학번, 이름, 이메일 출력 통해서 학번입력
+		StudentRegisterManager srm = new StudentRegisterManager();
+		srm.selectNameSearchManager();
 		
-		StudentVO svo = new StudentVO();
-		boolean successFlag = StudentDAO.studentUpdate(svo);
+		System.out.println("번호등록");
+		String s_name = sc.nextLine();
+		//student 검색기능추가
 		
-		if(successFlag == true) {
+		LessonRegisterManager lrm = new LessonRegisterManager();
+		lrm.selectManager();
+		
+		System.out.println("과목요약입력 >>");
+		String abbre = (sc.nextLine().trim());
+		
+		
+		System.out.print("전공/부전공/교양 선택>> ");
+		String section = (sc.nextLine().trim());
+		
+		TraineeVO traineeVO = new TraineeVO(no, s_name, abbre, section, null);
+		boolean successFlag = tdao.traineeUpdate(traineeVO);
+
+		if (successFlag == true) {
 			System.out.println("입력처리 성공");
-		}else {
+		} else {
 			System.out.println("입력처리 실패");
 		}
 	}
-
-	public static void deleteManager() throws SQLException, FileNotFoundException, IOException {
-		System.out.print("삭제할 학생 번호를 입력하세요: ");
+	public static void deleteManager(){
+		System.out.print("삭제할 수강신청 번호를 입력하세요: ");
 		int no = Integer.parseInt(sc.nextLine());
-		StudentVO svo = new StudentVO();
-		svo.setNo(no);
-		boolean successFlag = StudentDAO.studentDelete(svo); 
-		
-		if(successFlag == true) {
+		TraineeVO tvo = new TraineeVO();
+		TraineeDAO tdao = new TraineeDAO();
+		tvo.setNo(no);
+		boolean successFlag = tdao.traineeDelete(tvo);
+
+		if (successFlag == true) {
 			System.out.println("삭제처리 성공");
-		}else {
+		} else {
 			System.out.println("삭제처리 실패");
 		}
 	}
 
 	public static void sortManager() throws SQLException, FileNotFoundException, IOException {
-		ArrayList<StudentVO> studentList = null;
-		studentList =StudentDAO.studentSort(); 
-		printStudentList(studentList);
+		TraineeDAO tdao = new TraineeDAO();
+		ArrayList<TraineeVO> traineelist = null;
+		traineelist = tdao.traineeSelectSort(new TraineeVO());
+		
+		if (traineelist.size() <= 0) {
+			System.out.println("데이터가 존재하지 않습니다.");
+			return;
+		}
+		printTraineeList(traineelist);
+	}
+	
+
+	// 전체 학생리스트를 출력진행
+
+	public static void printTraineeList(ArrayList<TraineeVO> traineeList) {
+		System.out.println("============================================");
+		for (TraineeVO tv : traineeList) {
+			System.out.println(tv.toString());
+		}
+		System.out.println("============================================");
 	}
 
-	//전체 학생리스트를 출력진행
-	public static void printStudentList(ArrayList<StudentVO> studentList) {
+	public static void printTraineeAllList(ArrayList<TraineeVO> traineeList) {
 		System.out.println("============================================");
-		for( StudentVO sv :  studentList) {
-			System.out.println(sv.toString());
+		for (TraineeVO tv : traineeList) {
+			System.out.println(tv.toAllString());
 		}
 		System.out.println("============================================");
 	}

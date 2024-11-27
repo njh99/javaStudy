@@ -13,9 +13,11 @@ import java.util.ArrayList;
 
 import com.kh.subjectMVCProject.model.StudentAllVO;
 import com.kh.subjectMVCProject.model.StudentVO;
+import com.kh.subjectMVCProject.model.SubjectVO;
 
 public class StudentDAO {
 
+	public static final String STUDENT_SEARCH = "SELECT NUM, NAME, EMAIL FROM SUBJECT WHERE NAME = ? ";
 	public static final String STUDENT_SELECT = "SELECT * FROM STUDENT";
 	public static final String STUDENT_INSERT = "insert into student values(student_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate)";
 	public static final String STUDENT_CALL_RANK_PROC = "{call STUDENT_RANK_PROC()}";
@@ -252,4 +254,36 @@ public class StudentDAO {
 		return studentAllList;
 	}
 
+	public ArrayList<StudentVO> studentNameSelect(String nameValue) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<StudentVO> studentList = new ArrayList<StudentVO>();
+
+		con = DBUtility.dbCon();
+		try {
+			pstmt = con.prepareStatement(STUDENT_SEARCH);
+			pstmt.setString(1, nameValue);
+			rs = pstmt.executeQuery(STUDENT_SEARCH);
+			if (rs.next()) {
+				do {
+					String num = rs.getString("NUM");
+					String name = rs.getString("NAME");
+					String email = rs.getString("EMAIL");
+					StudentVO stu = new StudentVO();
+					stu.setNum(num);
+					stu.setNum(name);
+					stu.setNum(email);
+					studentList.add(stu);
+				} while (rs.next());
+			} else {
+				studentList = null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		DBUtility.dbClose(con, pstmt, rs);
+		return studentList;
+	}
 }

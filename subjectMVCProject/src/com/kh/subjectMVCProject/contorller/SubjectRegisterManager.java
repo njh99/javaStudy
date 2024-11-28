@@ -12,7 +12,7 @@ import com.kh.subjectMVCProject.model.SubjectVO;
 public class SubjectRegisterManager {
 	public static Scanner sc = new Scanner(System.in); 
 	//전체 학생리스트를 출력요청
-	public static void selectManager() throws SQLException, FileNotFoundException, IOException {
+	public static void selectManager() throws SQLException {
 		ArrayList<SubjectVO> subjectList = new ArrayList<SubjectVO>();
 		SubjectDAO subDAO = new SubjectDAO(); 
 		subjectList = subDAO.subjectSelect();
@@ -23,7 +23,7 @@ public class SubjectRegisterManager {
 		printSubjectList(subjectList); 
 	}
 
-	public static void insertManager() throws SQLException, FileNotFoundException, IOException {
+	public static void insertManager() throws SQLException {
 		SubjectDAO sd = new SubjectDAO();
 		ArrayList<SubjectVO> subjectList = null; 
 		String num; // 학과 번호
@@ -33,8 +33,9 @@ public class SubjectRegisterManager {
 		subjectList = sd.subjectSelect();
 		if(subjectList == null) {
 			System.out.println("데이터가 존재하지 않습니다.");
+		}else {
+			printSubjectList(subjectList); 
 		}
-		printSubjectList(subjectList); 
 
 		System.out.println("학과 정보 입력(학과번호:01,02,03,04,05)학과명01(IT학과),02(정보학과), 03(보안), 04(프런트),05(백엔드)");
 		System.out.print("학과번호>>");
@@ -59,7 +60,7 @@ public class SubjectRegisterManager {
 		printSubjectList(subjectList); 
 	}
 
-	public static void updateManager() throws SQLException, FileNotFoundException, IOException {
+	public static void updateManager() throws SQLException {
 		SubjectDAO sd = new SubjectDAO();
 		//전체학과리스트를 보여준다.
 		ArrayList<SubjectVO> subjectList = sd.subjectSelect();
@@ -84,7 +85,7 @@ public class SubjectRegisterManager {
 		}
 	}
 
-	public static void deleteManager() throws SQLException, FileNotFoundException, IOException {
+	public static void deleteManager() throws SQLException {
 		SubjectDAO sd = new SubjectDAO();
 		
 		System.out.print("삭제할 학과 번호를 입력하세요: ");
@@ -100,7 +101,7 @@ public class SubjectRegisterManager {
 		}
 	}
 
-	public static void sortManager() throws SQLException, FileNotFoundException, IOException {
+	public static void sortManager() throws SQLException {
 		SubjectDAO sd = new SubjectDAO();
 		ArrayList<SubjectVO> subjectList = null;
 		subjectList = sd.subjectSort();

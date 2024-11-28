@@ -13,16 +13,15 @@ import java.util.ArrayList;
 import com.kh.subjectMVCProject.model.SubjectVO;
 
 public class SubjectDAO {
-
+	
 	public static final String SUBJECT_SELECT = "SELECT * FROM SUBJECT";
-	public static final String SUBJECT_SEARCH = "SELECT NUM, NAME, EMAIL FROM SUBJECT WHERE NAME = ? ";
-	public static final String SUBJECT_INSERT = "insert into subject(no, num, name) values(subject_seq.nextval, ?, ?)";
-	public static final String SUBJECT_CALL_RANK_PROC = "{call STUDENT_RANK_PROC()}";
-	public static final String SUBJECT_UPDATE = "UPDATE SUBJECT SET NAME = ? WHERE NUM = ?";
-	public static final String SUBJECT_DELETE = "DELETE FROM SUBJECT WHERE NUM = ?";
-	public static final String SUBJECT_SORT = "SELECT * FROM SUBJECT ORDER BY NUM";
-
-	public ArrayList<SubjectVO> subjectSelect() throws SQLException, FileNotFoundException, IOException {
+    public static final String SUBJECT_INSERT = "insert into subject(no, num, name) values(subject_seq.nextval, ?, ?)";
+    public static final String SUBJECT_CALL_RANK_PROC = "{call STUDENT_RANK_PROC()}";
+    public static final String SUBJECT_UPDATE = "UPDATE SUBJECT SET NAME = ? WHERE NUM = ?";
+    public static final String SUBJECT_DELETE = "DELETE FROM SUBJECT WHERE NUM = ?";
+    public static final String SUBJECT_SORT = "SELECT * FROM SUBJECT ORDER BY NUM";
+	
+	public ArrayList<SubjectVO> subjectSelect() throws SQLException {
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -32,58 +31,24 @@ public class SubjectDAO {
 		stmt = con.createStatement();
 		rs = stmt.executeQuery(SUBJECT_SELECT);
 
-		if (rs.next()) {
-			do {
+		if(rs.next()) {
+			do{
 				int no = rs.getInt("NO");
 				String num = rs.getString("NUM");
 				String name = rs.getString("NAME");
-				SubjectVO svo = new SubjectVO(no, num, name);
+				SubjectVO svo = new SubjectVO(no, num, name); 
 				subjectList.add(svo);
-			} while (rs.next());
-		} else {
-			subjectList = null;
+			}while (rs.next());
+		}else {
+			subjectList = null; 
 		}
 		DBUtility.dbClose(con, stmt, rs);
 		return subjectList;
 	}
-
-	// 이름검색
-	public ArrayList<SubjectVO> studentNameSelect(String nameValue) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		ArrayList<SubjectVO> subjectList = new ArrayList<SubjectVO>();
-
-		con = DBUtility.dbCon();
-		try {
-			pstmt = con.prepareStatement(SUBJECT_SEARCH);
-			pstmt.setString(1, nameValue);
-			rs = pstmt.executeQuery(SUBJECT_SEARCH);
-			if (rs.next()) {
-				do {
-					String num = rs.getString("NUM");
-					String name = rs.getString("NAME");
-					String email = rs.getString("EMAIL");
-					SubjectVO stu = new SubjectVO();
-					stu.setNum(num);
-					stu.setNum(name);
-					stu.setNum(email);
-					subjectList.add(stu);
-				} while (rs.next());
-			} else {
-				subjectList = null;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		DBUtility.dbClose(con, pstmt, rs);
-		return subjectList;
-	}
-
-	public boolean subjectInsert(SubjectVO svo) throws SQLException, FileNotFoundException, IOException {
-		// Conection
-		boolean successFlag = false;
+	
+	public boolean subjectInsert(SubjectVO svo) throws SQLException  {
+		//Conection
+		boolean successFlag = false; 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -93,16 +58,16 @@ public class SubjectDAO {
 		pstmt = con.prepareStatement(SUBJECT_INSERT);
 		pstmt.setString(1, svo.getNum());
 		pstmt.setString(2, svo.getName());
-
+		
 		int result = pstmt.executeUpdate();
-
+		
 		DBUtility.dbClose(con, pstmt);
-		successFlag = (result != 0) ? true : false;
-		return successFlag;
+		successFlag = (result != 0 ) ? true : false;
+		return successFlag; 
 	}
 
-	public static boolean subjectUpdate(SubjectVO svo) throws SQLException, FileNotFoundException, IOException {
-		boolean successFlag = false;
+	public static boolean subjectUpdate(SubjectVO svo) throws SQLException {
+		boolean successFlag = false; 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -111,13 +76,13 @@ public class SubjectDAO {
 		pstmt.setString(1, svo.getName());
 		pstmt.setString(2, svo.getNum());
 		int result = pstmt.executeUpdate();
-		successFlag = (result != 0) ? true : false;
+		successFlag = (result != 0 ) ? true : false;
 		DBUtility.dbClose(con, pstmt);
-		return successFlag;
+		return successFlag; 
 	}
 
-	public static boolean subjectDelete(SubjectVO svo) throws SQLException, FileNotFoundException, IOException {
-		boolean successFlag = false;
+	public static boolean subjectDelete(SubjectVO svo) throws SQLException {
+		boolean successFlag =false; 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -125,12 +90,12 @@ public class SubjectDAO {
 		pstmt = con.prepareStatement(SUBJECT_DELETE);
 		pstmt.setString(1, svo.getNum());
 		int result = pstmt.executeUpdate();
-		successFlag = (result != 0) ? true : false;
+		successFlag = (result != 0) ? true : false ;
 		DBUtility.dbClose(con, pstmt);
-		return successFlag;
+		return successFlag; 
 	}
 
-	public static ArrayList<SubjectVO> subjectSort() throws SQLException, FileNotFoundException, IOException {
+	public static ArrayList<SubjectVO> subjectSort() throws SQLException {
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -140,21 +105,22 @@ public class SubjectDAO {
 		stmt = con.createStatement();
 		rs = stmt.executeQuery(SUBJECT_SORT);
 
-		if (rs.next()) {
+		if(rs.next()) {
 			do {
 				int no = rs.getInt("NO");
 				String num = rs.getString("NUM");
 				String name = rs.getString("NAME");
-
-				SubjectVO svo = new SubjectVO(no, num, name);
+				
+				SubjectVO svo = new SubjectVO(no, num, name); 
 				subjectList.add(svo);
 			} while (rs.next());
-		} else {
-			subjectList = null;
+		}else {
+			subjectList = null; 
 		}
 
 		DBUtility.dbClose(con, stmt, rs);
-		return subjectList;
+		return subjectList; 
 	}
+
 
 }

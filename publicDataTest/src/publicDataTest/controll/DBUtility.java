@@ -1,4 +1,4 @@
-package com.kh.subjectMVCProject.contorller;
+package publicDataTest.controll;
 
 
 import java.io.FileReader;
@@ -19,7 +19,7 @@ public class DBUtility {
 	public static Connection dbCon()  {
 		Connection con = null;
 		// 1. db.properties file( id, pw, url setting)
-		String filePath = "D:\\javaStudy\\subjectMVCProject\\src\\db.properties";
+		String filePath = "D:\\javaStudy\\publicDataTest\\src\\db.properties";
 		Properties pt = new Properties(); 
 		try {
 			pt.load(new FileReader(filePath));
